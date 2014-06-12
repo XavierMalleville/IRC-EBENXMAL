@@ -49,15 +49,15 @@ public class ConnectionPanel extends JPanel {
 	
 		JPanel fieldPanel = new JPanel(false);
 		fieldPanel.setLayout(new GridLayout(0, 1));
-	    JLabel userNameLabel = new JLabel("Pseudo de l'utilisateur: ", JLabel.RIGHT);
+	    JLabel userNameLabel = new JLabel("Login: ", JLabel.RIGHT);
 	    userNameField = new JTextField("guest");
-	    JLabel passwordLabel = new JLabel("Mot de passe: ", JLabel.RIGHT);
-        JLabel serverLabel = new JLabel("Nom du serveur: ", JLabel.RIGHT);
+	    JLabel passwordLabel = new JLabel("Password: ", JLabel.RIGHT);
+        JLabel serverLabel = new JLabel("Server name: ", JLabel.RIGHT);
         JLabel serverPortLabel = new JLabel("Port: ", JLabel.RIGHT);
 	    passwordField = new JPasswordField("trustworthy");
 	    serverField = new JTextField("localhost");
 	    serverPortField = new JTextField("4567");
-	    JLabel userRealNameLabel = new JLabel("Nom réel: ", JLabel.RIGHT);
+	    JLabel userRealNameLabel = new JLabel("Last name: ", JLabel.RIGHT);
 	    userRealNameField = new JTextField("guest");
 	    GroupLayout groupLayout = new GroupLayout(this);
 	    groupLayout.setHorizontalGroup(
