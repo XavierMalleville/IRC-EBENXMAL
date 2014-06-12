@@ -21,13 +21,18 @@ public class ConnectionPanel extends JPanel {
     private JPasswordField passwordField;
     private JTextField userRealNameField;
     
+
 	public JTextField getServerPortField() {
 		return serverPortField;
 	}
 
+
+
 	public JTextField getServerField() {
 		return serverField;
 	}
+
+
 
 	/**
 	 * Create the panel.
