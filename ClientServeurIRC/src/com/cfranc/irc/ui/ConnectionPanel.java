@@ -58,7 +58,7 @@ public class ConnectionPanel extends JPanel {
 	    serverField = new JTextField("localhost");
 	    serverPortField = new JTextField("4567");
 	    JLabel userRealNameLabel = new JLabel("Nom réel: ", JLabel.RIGHT);
-	    userRealNameField = new JTextField("Toto");
+	    userRealNameField = new JTextField("guest");
 	    GroupLayout groupLayout = new GroupLayout(this);
 	    groupLayout.setHorizontalGroup(
 	    	groupLayout.createParallelGroup(Alignment.TRAILING)
