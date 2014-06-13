@@ -21,6 +21,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 import com.cfranc.irc.client.ClientToServerThread;
+import com.cfranc.irc.ui.connection.ConnectionPanel;
 
 public class SimpleChatClientApp implements ActionListener {
     static String[] ConnectOptionNames = { "Connect" };	

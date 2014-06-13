@@ -1,4 +1,4 @@
-package com.cfranc.irc.ui;
+package com.cfranc.irc.ui.user;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
