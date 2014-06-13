@@ -1,5 +1,6 @@
 package com.cfranc.irc;
 
+//
 public interface IfClientServerProtocol {
 	public static final String LOGIN_PWD = "#Login?#Pwd?";
 	public static final String SEPARATOR="#";
