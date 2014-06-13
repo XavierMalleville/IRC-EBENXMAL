@@ -29,22 +29,21 @@ import org.pushingpixels.substance.api.SubstanceLookAndFeel;
 import org.pushingpixels.substance.api.skin.BusinessBlueSteelSkin;
 import org.pushingpixels.substance.api.skin.SubstanceBusinessBlueSteelLookAndFeel;
 
+import com.cfranc.irc.ui.user.UserConnectionPanel;
+import com.cfranc.irc.ui.user.UserIdentityPanel;
+
+
 public class UserPanel extends JPanel {
-	
-	private JTextField lastNameField; 		//Nom
-	private JTextField firstNameField; 		//Prénom
-	private JTextField loginField;			//login/pseudo
-	private JPasswordField passwordField;	//password
+	private UserIdentityPanel pnlIdentity;
+	private UserConnectionPanel pnlLogin;
 	private JTextField avatarField;			//Adresse de l'avatar
 	private JPanel avatarView;				//Panel de viisualisation de l'avatar
 	
 	public UserPanel() {
-		
+		pnlIdentity = new UserIdentityPanel();
+
 		Border border = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-		lastNameField = new JTextField("last name");
-		firstNameField = new JTextField("first name");
-		loginField= new JTextField("login");
-		passwordField = new JPasswordField("trustworthy");
+
 		avatarField = new JTextField("C:\\Users\\Administrateur\\Pictures\\couv.jpg");
 		avatarField.addActionListener(new ActionListener() {
 			@Override
@@ -92,20 +91,7 @@ public class UserPanel extends JPanel {
 			}
 		});
 		
-
-		JPanel pnlIdentity = new JPanel(new GridBagLayout());
-		pnlIdentity.setBorder(BorderFactory.createTitledBorder(border, "Information d'identification"));
-		pnlIdentity.add(new JLabel("Nom :", JLabel.RIGHT), new GridBagConstraints(0, 0, 1, 1, .0, .0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5,5), 0,0)); 
-		pnlIdentity.add(lastNameField, new GridBagConstraints(1, 0, 1, 1, 1.0, .0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5,5), 0,0)); 
-		pnlIdentity.add(new JLabel("Prénom :", JLabel.RIGHT), new GridBagConstraints(0, 1, 1, 1, .0, .0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5,5), 0,0)); 
-		pnlIdentity.add(firstNameField, new GridBagConstraints(1, 1, 1, 1, 1.0, 0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0,0)); 
-
-		JPanel pnlLogin = new JPanel(new GridBagLayout());
-		pnlLogin.setBorder(BorderFactory.createTitledBorder(border, "Information de connexion"));
-		pnlLogin.add(new JLabel("Login / Pseudo :", JLabel.RIGHT), new GridBagConstraints(0, 0, 1, 1, .0, .0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5,5), 0,0)); 
-		pnlLogin.add(loginField, new GridBagConstraints(1, 0, 1, 1, 1.0, .0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5,5), 0,0)); 
-		pnlLogin.add(new JLabel("Mot de passe :", JLabel.RIGHT), new GridBagConstraints(0, 1, 1, 1, .0, .0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5,5), 0,0)); 
-		pnlLogin.add(passwordField, new GridBagConstraints(1, 1, 1, 1, 1.0, 0, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5,5), 0,0)); 
+		pnlLogin = new UserConnectionPanel();
 		
 		JPanel pnlAvatar = new JPanel(new GridBagLayout());
 		pnlAvatar.setBorder(BorderFactory.createTitledBorder(border, "Avatar"));
@@ -148,19 +134,19 @@ public class UserPanel extends JPanel {
 	}
 
 	public JTextField getLastNameField() {
-		return lastNameField;
+		return pnlIdentity.getLastNameField();
 	}
 
 	public JTextField getFirstNameField() {
-		return firstNameField;
+		return pnlIdentity.getFirstNameField();
 	}
 
 	public JTextField getLoginField() {
-		return loginField;
+		return pnlLogin.getLoginField();
 	}
 
 	public JPasswordField getPasswordField() {
-		return passwordField;
+		return pnlLogin.getPasswordField();
 	}
 
 	public JTextField getAvatarField() {
