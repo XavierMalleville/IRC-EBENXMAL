@@ -1,4 +1,4 @@
-package com.cfranc.irc.ui;
+package com.cfranc.irc.ui.connection;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
