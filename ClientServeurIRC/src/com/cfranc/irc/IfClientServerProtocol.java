@@ -1,6 +1,10 @@
 package com.cfranc.irc;
 
-//
+/** IRC protocol words
+ * 
+ * @author Administrateur
+ *
+ */
 public interface IfClientServerProtocol {
 	public static final String LOGIN_PWD = "#Login?#Pwd?";
 	public static final String SEPARATOR="#";
