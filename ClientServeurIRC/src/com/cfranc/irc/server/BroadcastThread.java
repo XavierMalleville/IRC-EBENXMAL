@@ -17,6 +17,14 @@ public class BroadcastThread extends Thread implements IfClientServerProtocol {
 		Collections.synchronizedMap(clientTreadsMap);
 	}
 	
+	/**
+	 * Cette méthode addClient envoie un message à tous les clients pour leurs signifier 
+	 * la connection d'un nouvel utilisateur,et elle envoie un message d'ajout des autres 
+	 * d'utilisateur au clients qui vient de ce connecter.
+	 * 
+	 * @param user
+	 */
+	
 	public static boolean addClient(User user, ServerToClientThread serverToClientThread){
 		boolean res=true;
 		if(clientTreadsMap.containsKey(user)){
@@ -50,7 +58,14 @@ public class BroadcastThread extends Thread implements IfClientServerProtocol {
 			
 		}
 	}
-	
+
+	/**
+	 * Cette méthode removeClient envoie un message à tous les clients pour leurs signifier 
+	 * la deconnection d'un utilisateur,et elle parcour tous les enfants de l'arbre pour supprimer 
+	 * celui qui correspond à l'utilisateur qui se deconnecte et demande au modele de se rafraichir.
+	 * 
+	 * @param user
+	 */
 	public static void removeClient(User user){
 		clientTreadsMap.remove(user);
 		Collection<ServerToClientThread> clientTreads=clientTreadsMap.values();
