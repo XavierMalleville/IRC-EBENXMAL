@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
+
 import com.cfranc.irc.IfClientServerProtocol;
 
 public class BroadcastThread extends Thread implements IfClientServerProtocol {
@@ -55,6 +58,14 @@ public class BroadcastThread extends Thread implements IfClientServerProtocol {
 		while (receiverClientThreadIterator.hasNext()) {
 			ServerToClientThread clientThread = (ServerToClientThread) receiverClientThreadIterator.next();
 			clientThread.post(IfClientServerProtocol.DEL + user.getLogin() );
+		}
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode) ClientConnectThread.getClientListModel().getRoot();
+		for (int i= 0; i <root.getChildCount(); i++ ) {
+			if (root.getChildAt(i).toString().equals(user.getLogin())) {
+				root.remove(i);
+				ClientConnectThread.getClientListModel().reload((TreeNode) root);
+				break;
+			}
 		}
 	}
 	

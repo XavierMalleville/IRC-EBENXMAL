@@ -16,7 +16,7 @@ import com.cfranc.irc.IfClientServerProtocol;
 
 public class ClientConnectThread extends Thread implements IfClientServerProtocol {
 	StyledDocument model=null;
-	DefaultTreeModel clientListModel;		
+	private static DefaultTreeModel clientListModel;		
 	
 	private boolean canStop=false;
 	private ServerSocket server = null;
@@ -82,7 +82,7 @@ public class ClientConnectThread extends Thread implements IfClientServerProtoco
 		String pwd=userPwd[2];
 		String name=userPwd[3];
 		
-		User newUser=new User(login, pwd, name);
+		User newUser=new User(name, login, pwd);
 		boolean isUserOK=authentication(newUser);
 		if(isUserOK){
 			
@@ -114,13 +114,7 @@ public class ClientConnectThread extends Thread implements IfClientServerProtoco
 		return BroadcastThread.accept(newUser);
 	}
 
-//	private boolean remove(User user){
-//		int index = clientListModel.getIndexOfChild(clientListModel.getRoot(), user.getLogin());
-//		
-//		BroadcastThread.removeClient(user);
-//		return true;
-//	}
-	
+
 	public void open() throws IOException {
 	}
 	
@@ -128,5 +122,9 @@ public class ClientConnectThread extends Thread implements IfClientServerProtoco
 		System.err.println("server:close()");
 		if (server != null)
 			server.close();
+	}
+
+	public static DefaultTreeModel getClientListModel() {
+		return clientListModel;
 	}
 }
