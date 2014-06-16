@@ -238,4 +238,40 @@ public class User {
 		}
 		return connection;		
 	}	
+	
+	public static User fromDataBase(String pseudo) {
+		return fromDataBase(urlBase, pseudo);		
+	}
+	public static User fromDataBase(String pseudo, String filePath) {
+		/* initialiser un utilisateur */
+		User result = null;
+		if (!filePath.equals("")) {			
+			Connection connection = null;			
+			if(JDBC.isValidURL("jdbc:sqlite:" + filePath)) {				
+				try {
+					connection = DriverManager.getConnection("jdbc:sqlite:" + filePath);					
+					Statement statement = connection.createStatement();
+					statement.setQueryTimeout(30);
+					ResultSet rs = statement.executeQuery("SELECT * FROM TUserIRC WHERE Pseudo = '" + pseudo + "' ");
+					result = new User(rs.getString(0), rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					System.err.println(e.getMessage());
+				}			
+				finally {
+					try {
+						connection.close();
+						return result;
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						System.err.println(e);
+					}
+				}
+			}
+		}		
+		else {
+			System.out.println("Le chemin de la base est foireux");			
+		}	
+		return result;				
+	}
 }
