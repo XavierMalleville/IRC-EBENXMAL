@@ -100,12 +100,12 @@ public class User {
 		return true;
 	}
 	
-	private boolean connectionVerifUser() {
+	public boolean connectionVerifUser() {
 		//return  this.connectionVerifUser("c:"+ File.separator);
 		return  this.connectionVerifUser(urlBase);		
 	}
 	
-	private boolean connectionVerifUser(String filePath) {
+	public boolean connectionVerifUser(String filePath) {
 		boolean result = false;
 		if (!filePath.equals("")) {			
 			Connection connection = connectionBase ("jdbc:sqlite:" + filePath);
