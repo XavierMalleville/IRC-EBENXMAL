@@ -68,6 +68,9 @@ public class User {
 		this.name = name;
 		this.login = login;
 		this.pwd = pwd;
+		
+		this.prenom= null;
+		this.avatar= null;
 	}
 
 	public User(String login, String pwd) {
