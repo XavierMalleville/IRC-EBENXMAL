@@ -153,7 +153,7 @@ public class User {
 				if (! controleExistanceUser(connection)) {
 					Statement statement = connection.createStatement();
 					statement.setQueryTimeout(30);
-					statement.executeUpdate("INSERT INTO TUserIRC VALUES ("+this.name+","+this.prenom+","+this.login+","+this.avatar+","+this.pwd+") ");
+					statement.executeUpdate("INSERT INTO TUserIRC VALUES ('"+this.name+"', '"+this.prenom+"', '"+this.login+"', '"+this.avatar+"', '"+this.pwd+"') ");
 					result = true;
 				}	
 				else {
