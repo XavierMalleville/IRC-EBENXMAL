@@ -1,13 +1,15 @@
 package com.cfranc.irc.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
@@ -17,6 +19,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -24,9 +27,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
@@ -44,20 +49,12 @@ import javax.swing.text.Style;
 import javax.swing.text.StyledDocument;
 
 import com.cfranc.irc.client.IfSenderModel;
-
-import javax.swing.JPopupMenu;
-
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JTabbedPane;
+import com.cfranc.irc.server.User;
 
 public class SimpleChatFrameClient extends JFrame {
 	
 	private static Document documentModel;
-	private static ListModel<String> listModel;
+	private static ListModel<User> listModel;
 	IfSenderModel sender;
 	private String senderName;	
 
@@ -94,8 +91,7 @@ public class SimpleChatFrameClient extends JFrame {
 		}
 	}
 
-	public static void sendMessage(String user, String line, Style styleBI,
-			Style styleGP) {
+	public static void sendMessage(String user, String line, Style styleBI, Style styleGP) {
         try {
 			documentModel.insertString(documentModel.getLength(), user+" : ", styleBI); //$NON-NLS-1$
 			documentModel.insertString(documentModel.getLength(), line+"\n", styleGP); //$NON-NLS-1$
@@ -113,16 +109,16 @@ public class SimpleChatFrameClient extends JFrame {
 	}
 	
 	public SimpleChatFrameClient() {
-		this(null, new DefaultListModel<String>(), SimpleChatClientApp.defaultDocumentModel());
+		this(null, new DefaultListModel<User>(), SimpleChatClientApp.defaultDocumentModel());
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public SimpleChatFrameClient(IfSenderModel sender, ListModel<String> clientListModel, Document documentModel) {
+	public SimpleChatFrameClient(IfSenderModel sender, ListModel<User> clientListModel, Document documentModel) {
 		this.sender=sender;
 		this.documentModel=documentModel;
-		this.listModel=clientListModel;
+		this.listModel= clientListModel;
 		setTitle(Messages.getString("SimpleChatFrameClient.4")); //$NON-NLS-1$
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -157,13 +153,14 @@ public class SimpleChatFrameClient extends JFrame {
 		JSplitPane splitPane = new JSplitPane();
 		contentPane.add(splitPane, BorderLayout.CENTER);
 		
-		JList<String> list = new JList<String>(listModel);
+		JList<User> list = new JList<User>(listModel);
+		list.setCellRenderer(new ListRenderer());
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				int iFirstSelectedElement=((JList)e.getSource()).getSelectedIndex();
 				if(iFirstSelectedElement>=0 && iFirstSelectedElement<listModel.getSize()){
-					senderName=listModel.getElementAt(iFirstSelectedElement);
+					senderName= (listModel.getElementAt(iFirstSelectedElement)).getLogin();
 					getLblSender().setText(senderName);
 				}
 				else{

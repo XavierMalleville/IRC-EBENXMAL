@@ -14,6 +14,7 @@ import javax.swing.text.Style;
 import javax.swing.text.StyledDocument;
 
 import com.cfranc.irc.IfClientServerProtocol;
+import com.cfranc.irc.server.User;
 import com.cfranc.irc.ui.SimpleChatClientApp;
 
 public class ClientToServerThread extends Thread implements IfSenderModel{
@@ -21,17 +22,16 @@ public class ClientToServerThread extends Thread implements IfSenderModel{
 	private DataOutputStream streamOut = null;
 	private DataInputStream streamIn = null;
 	private BufferedReader console = null;
-	String login,pwd;
-	DefaultListModel<String> clientListModel;
+	DefaultListModel<User> clientListModel;
 	StyledDocument documentModel;
+	private User userClient;  
 	
-	public ClientToServerThread(StyledDocument documentModel, DefaultListModel<String> clientListModel, Socket socket, String login, String pwd) {
+	public ClientToServerThread(StyledDocument documentModel, DefaultListModel<User> clientListModel, Socket socket, User user) {
 		super();
 		this.documentModel=documentModel;
 		this.clientListModel=clientListModel;
 		this.socket = socket;
-		this.login=login;
-		this.pwd=pwd;
+		this.userClient = user; //User.fromDataBase(login);
 	}
 	
 	public void open() throws IOException {
@@ -69,17 +69,19 @@ public class ClientToServerThread extends Thread implements IfSenderModel{
 		System.out.println(line);
 		
 		if(line.startsWith(IfClientServerProtocol.ADD)){
-			String newUser=line.substring(IfClientServerProtocol.ADD.length());
-			if(!clientListModel.contains(newUser)){
-				clientListModel.addElement(newUser);
+			String newUser = line.substring(IfClientServerProtocol.ADD.length());
+			User user = User.fromDataBase(newUser);
+			if(!clientListModel.contains(user)){
+				clientListModel.addElement(user);
 				receiveMessage(newUser, " entre dans le salon...");
 			}
 		}
 		else if(line.startsWith(IfClientServerProtocol.DEL)){
-			String delUser=line.substring(IfClientServerProtocol.DEL.length());
-			if(clientListModel.contains(delUser)){
-				clientListModel.removeElement(delUser);
-				receiveMessage(delUser, " quite le salon !");
+			String login=line.substring(IfClientServerProtocol.DEL.length());
+			User deluser = new User(login,"");
+			if(clientListModel.contains(deluser)){
+				clientListModel.removeElement(deluser);
+				receiveMessage(deluser.getLogin(), " quite le salon !");
 			}
 		}
 		else{
@@ -102,7 +104,7 @@ public class ClientToServerThread extends Thread implements IfSenderModel{
 	private boolean sendMsg() throws IOException{
 		boolean res=false;
 		if(msgToSend!=null){
-			streamOut.writeUTF("#"+login+"#"+msgToSend);
+			streamOut.writeUTF("#"+ userClient.getLogin() +"#"+msgToSend);
 			msgToSend=null;
 		    streamOut.flush();
 		    res=true;
@@ -111,7 +113,7 @@ public class ClientToServerThread extends Thread implements IfSenderModel{
 	}
 	
 	public void quitServer() throws IOException{
-		streamOut.writeUTF(IfClientServerProtocol.DEL+login);
+		streamOut.writeUTF(IfClientServerProtocol.DEL+userClient.getLogin());
 		streamOut.flush();
 		done=true;
 	}
@@ -153,7 +155,7 @@ public class ClientToServerThread extends Thread implements IfSenderModel{
 			}
 			loginPwdQ = streamIn.readUTF();
 			if(loginPwdQ.equals(IfClientServerProtocol.LOGIN_PWD)){
-				streamOut.writeUTF(IfClientServerProtocol.SEPARATOR+this.login+IfClientServerProtocol.SEPARATOR+this.pwd);
+				streamOut.writeUTF(IfClientServerProtocol.SEPARATOR+userClient.getLogin()+IfClientServerProtocol.SEPARATOR+userClient.getPwd());
 			}
 			while(streamIn.available()<=0){
 				Thread.sleep(100);

@@ -42,10 +42,11 @@ public class SimpleChatClientApp implements ActionListener {
     String clientName;
     String clientPwd;
     String clientRealName;
+    User clientUser;
     
 	private SimpleChatFrameClient frame;
 	public StyledDocument documentModel=new DefaultStyledDocument();
-	DefaultListModel<String> clientListModel=new DefaultListModel<String>();
+	DefaultListModel<User> clientListModel=new DefaultListModel<User>();
 	
     public static final String BOLD_ITALIC = "BoldItalic";
     public static final String GRAY_PLAIN = "Gray";
@@ -147,7 +148,7 @@ public class SimpleChatClientApp implements ActionListener {
 		try {
 			socketClientServer = new Socket(this.serverName, this.serverPort);
 			// Start connection services
-			clientToServerThread=new ClientToServerThread(documentModel, clientListModel,socketClientServer,clientName, clientPwd);
+			clientToServerThread=new ClientToServerThread(documentModel, clientListModel,socketClientServer,  clientUser);
 			clientToServerThread.start();
 
 			System.out.println("Connected: " + socketClientServer);
@@ -162,7 +163,7 @@ public class SimpleChatClientApp implements ActionListener {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		User.urlBase = "d:\\SQLite\\userchat.db";
+		User.urlBase = args[0];
 		final SimpleChatClientApp app = new SimpleChatClientApp();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -208,6 +209,7 @@ public class SimpleChatClientApp implements ActionListener {
 				dlgConn.setVisible(false); 
 				if (new User(clientName, clientPwd).connectionVerifUser())
 				{
+					clientUser = User.fromDataBase(clientName);
 					connectClient();
 					displayClient();
 				} else  {
@@ -233,6 +235,7 @@ public class SimpleChatClientApp implements ActionListener {
 		} else if (e.getActionCommand().equals(SAVE_CONNECT_USER)) {
 			dlgUser.setVisible(false);
 			if (creerClient(dlgUser.getLastNameField().getText(), dlgUser.getFirstNameField().getText(), dlgUser.getLoginField().getText(), dlgUser.getPasswordField().getText(), dlgUser.getAvatarField().getText())) {
+				clientUser = User.fromDataBase(clientName);				
 				connectClient();
 				displayClient();
 			} else {

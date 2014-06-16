@@ -11,6 +11,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import com.cfranc.irc.server.ClientConnectThread;
+import com.cfranc.irc.server.User;
 
 public class SimpleChatServerApp {
 
@@ -40,6 +41,7 @@ public class SimpleChatServerApp {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		User.urlBase = args[0];
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
