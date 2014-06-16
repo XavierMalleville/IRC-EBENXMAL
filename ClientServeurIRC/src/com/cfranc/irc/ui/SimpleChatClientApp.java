@@ -12,6 +12,7 @@ import java.net.UnknownHostException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -19,6 +20,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 import com.cfranc.irc.client.ClientToServerThread;
+import com.cfranc.irc.server.User;
 import com.cfranc.irc.ui.connection.ConnectionDialog;
 import com.cfranc.irc.ui.user.CreateUserDialog;
 
@@ -160,7 +162,7 @@ public class SimpleChatClientApp implements ActionListener {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+		User.urlBase = "d:\\SQLite\\userchat.db";
 		final SimpleChatClientApp app = new SimpleChatClientApp();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -204,8 +206,15 @@ public class SimpleChatClientApp implements ActionListener {
 				clientName = dlgConn.getUserNameField().getText();
 				clientPwd =  dlgConn.getPasswordField().getText();
 				dlgConn.setVisible(false); 
-				connectClient();
-				displayClient();
+				if (new User(clientName, clientPwd).connectionVerifUser())
+				{
+					connectClient();
+					displayClient();
+				} else  {
+					JOptionPane.showMessageDialog(null, "L'utilisateur n'existe pas.", "Error", JOptionPane.ERROR_MESSAGE);
+					System.exit(1);
+				}
+				
 
 			}
 		} else if (e.getActionCommand().equals(CREATE_USER)) {
@@ -222,27 +231,23 @@ public class SimpleChatClientApp implements ActionListener {
 				dlgUser.setVisible(true);
 			}
 		} else if (e.getActionCommand().equals(SAVE_CONNECT_USER)) {
-			
 			dlgUser.setVisible(false);
-			creerClient(dlgUser.getLastNameField().getText(), dlgUser.getFirstNameField().getText(), dlgUser.getLoginField().getText(), dlgUser.getPasswordField().getText(), dlgUser.getAvatarField().getText());
-			connectClient();
-			displayClient();
-			serverName = dlgConn.getServerField().getText();
-			serverPort = Integer.parseInt(dlgConn.getServerPortField().getText());
-			clientName = dlgConn.getUserNameField().getText();
-			clientPwd =  dlgConn.getPasswordField().getText();
-			dlgConn.setVisible(false); 
-			dlgUser = new CreateUserDialog(this);
-			dlgUser.getLoginField().setText(clientName);
-			dlgUser.getPasswordField().setText(clientPwd);
-			dlgUser.setModal(true);
-			dlgUser.setVisible(true);
-
+			if (creerClient(dlgUser.getLastNameField().getText(), dlgUser.getFirstNameField().getText(), dlgUser.getLoginField().getText(), dlgUser.getPasswordField().getText(), dlgUser.getAvatarField().getText())) {
+				connectClient();
+				displayClient();
+			} else {
+				JOptionPane.showMessageDialog(null, "La création de l'utilisateur à echoué.", "Error", JOptionPane.ERROR_MESSAGE);
+				System.exit(1);
+			}
+			
 		} 
+		
 	}
 
-	private void creerClient(String lastName, String firstName, String login,String pswd, String avatar) {
-		
+
+	private boolean creerClient(String name, String prenom, String login,String pwd, String avatar) {
+		User user = new User(name, prenom, login, avatar, pwd);
+		return user.addUserBase();
 	}
 
 }
