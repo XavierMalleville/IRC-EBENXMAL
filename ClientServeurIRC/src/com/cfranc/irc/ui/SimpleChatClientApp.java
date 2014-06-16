@@ -137,16 +137,7 @@ public class SimpleChatClientApp implements ActionListener {
     	dlgConn = new ConnectionDialog(this);
     	dlgConn.setModal(true);
     	dlgConn.setVisible(true); 
-    	
-//    	ConnectionPanel connectionPanel=new ConnectionPanel();
-//		if (JOptionPane.showOptionDialog(null, connectionPanel, ConnectTitle,JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,null, ConnectOptionNames, ConnectOptionNames[0]) == 0) {
-//
-//			serverPort=Integer.parseInt(connectionPanel.getServerPortField().getText());
-//			serverName=connectionPanel.getServerField().getText();
-//			clientName=connectionPanel.getUserNameField().getText();
-//			clientPwd=connectionPanel.getPasswordField().getText();
-//			clientRealName=connectionPanel.getUserRealNameField().getText();
-//		}
+
 	}
     
     private void connectClient() {
