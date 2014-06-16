@@ -2,6 +2,7 @@ package com.cfranc.irc.server;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -133,8 +134,10 @@ public class User {
 		try {
 			statement = connection.createStatement();
 			statement.setQueryTimeout(30);
-			result = statement.execute("SELECT * FROM TUserIRC WHERE Pseudo = '" + this.login + "' AND Pwd = '" + this.pwd +"' " );
-			result = true;
+			ResultSet rs = statement.executeQuery("SELECT * FROM TUserIRC WHERE Pseudo = '" + this.login + "' AND Pwd = '" + this.pwd +"' " );
+			if (rs!=null) {
+				result = true;	
+			}			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
