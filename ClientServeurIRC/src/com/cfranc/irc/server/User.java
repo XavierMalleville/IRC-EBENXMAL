@@ -242,7 +242,7 @@ public class User {
 	public static User fromDataBase(String pseudo) {
 		return fromDataBase(urlBase, pseudo);		
 	}
-	public static User fromDataBase(String pseudo, String filePath) {
+	public static User fromDataBase(String filePath, String pseudo) {
 		/* initialiser un utilisateur */
 		User result = null;
 		if (!filePath.equals("")) {			
