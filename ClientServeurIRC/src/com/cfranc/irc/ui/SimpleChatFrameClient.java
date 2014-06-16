@@ -63,6 +63,7 @@ public class SimpleChatFrameClient extends JFrame {
 	private JLabel lblSender;
 	private JToolBar toolBar;
 	private final ResourceAction sendAction = new SendAction();
+	private final ResourceAction disconnectAction = new DisconnectAction();
 	private final ResourceAction lockAction = new LockAction();
 	private final ResourceAction visibleAction = new VisibleAction() ;
 	
@@ -140,6 +141,7 @@ public class SimpleChatFrameClient extends JFrame {
 		JMenuItem mntmEnvoyer = new JMenuItem(Messages.getString("SimpleChatFrameClient.8")); //$NON-NLS-1$
 		mntmEnvoyer.setAction(sendAction);
 		mnOutils.add(mntmEnvoyer);
+		mnOutils.add(disconnectAction);
 		
 		JSeparator separator = new JSeparator();
 		mnOutils.add(separator);
@@ -248,8 +250,10 @@ public class SimpleChatFrameClient extends JFrame {
 		mntmAfficherTB.setAction(visibleAction);
 		mnOutils.add(mntmAfficherTB);
 		
-		JButton button = toolBar.add(sendAction);
+		toolBar.add(sendAction);
+		toolBar.add(disconnectAction);
 	}
+
 
 	public JLabel getLblSender() {
 		return lblSender;
@@ -259,7 +263,7 @@ public class SimpleChatFrameClient extends JFrame {
 		public ResourceAction() {
 		}
 	}
-	
+
 	private class SendAction extends ResourceAction{	
 		private Icon getIcon(){
 			return new ImageIcon(SimpleChatFrameClient.class.getResource("send_16_16.jpg")); //$NON-NLS-1$
@@ -276,6 +280,18 @@ public class SimpleChatFrameClient extends JFrame {
 			} else {
 				textField.setText("");
 			};
+		}
+	}
+	
+	private class DisconnectAction extends ResourceAction{	
+		public DisconnectAction(){
+			putValue(NAME, SimpleChatClientApp.DISCONNECT); //$NON-NLS-1$
+			putValue(SHORT_DESCRIPTION, "Se déconnecter"); //$NON-NLS-1$
+		}
+		public void actionPerformed(ActionEvent e) {
+			textField.setText(".bye");
+			sendMessage();
+			close();
 		}
 	}
 	

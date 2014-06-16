@@ -28,6 +28,7 @@ public class SimpleChatClientApp implements ActionListener {
 	
 	
 	public static final String CONNECT = "connect";
+	public static final String DISCONNECT = "disconnect";
 	public static final String CREATE_USER  = "create_user";
 	public static final String SAVE_CONNECT_USER = "save_and_connect";
 	
