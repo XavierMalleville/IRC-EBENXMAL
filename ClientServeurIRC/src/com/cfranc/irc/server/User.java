@@ -16,7 +16,7 @@ public class User {
 	private String pwd;
 	
 	/* Emplacement de la base de donnée du serveur */
-	static String urlBase;
+	public static String urlBase;
 	
 	public String getLogin() {
 		return login;
@@ -166,6 +166,7 @@ public class User {
 			finally {
 				try {
 					connection.close();
+					return result;
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					System.err.println(e);
@@ -203,6 +204,7 @@ public class User {
 			finally {
 				try {
 					connection.close();
+					return result;
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					System.err.println(e);
