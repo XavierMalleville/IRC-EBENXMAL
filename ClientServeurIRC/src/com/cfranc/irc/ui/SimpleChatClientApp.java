@@ -81,7 +81,7 @@ public class SimpleChatClientApp implements ActionListener {
 		
 		// Init GUI
 		this.frame=new SimpleChatFrameClient(clientToServerThread, clientListModel, documentModel);
-		this.frame.setTitle(this.frame.getTitle()+" : "+clientName+" connected to "+serverName+":"+serverPort);
+		this.frame.setTitle(this.frame.getTitle()+" : "+ clientUser.getLogin() +" connected to "+serverName+":"+serverPort);
 		this.frame.setVisible(true);
 		this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.frame.addWindowListener(new WindowListener() {
@@ -172,7 +172,6 @@ public class SimpleChatClientApp implements ActionListener {
 			app.hideClient();
 			System.out.println("SimpleChatClientApp : fermée");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
