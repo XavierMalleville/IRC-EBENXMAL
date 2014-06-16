@@ -88,32 +88,22 @@ public class SimpleChatClientApp implements ActionListener {
 			
 			@Override
 			public void windowOpened(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void windowIconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void windowDeiconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void windowDeactivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
@@ -123,20 +113,15 @@ public class SimpleChatClientApp implements ActionListener {
 			
 			@Override
 			public void windowActivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 	}
 	
 	public void hideClient() {
-		
-		// Init GUI
 		((JFrame)this.frame).setVisible(false);
 	}
 	
     void displayConnectionDialog() {
-    	
     	dlgConn = new ConnectionDialog(this);
     	dlgConn.setModal(true);
     	dlgConn.setVisible(true); 
@@ -235,7 +220,7 @@ public class SimpleChatClientApp implements ActionListener {
 		} else if (e.getActionCommand().equals(SAVE_CONNECT_USER)) {
 			dlgUser.setVisible(false);
 			if (creerClient(dlgUser.getLastNameField().getText(), dlgUser.getFirstNameField().getText(), dlgUser.getLoginField().getText(), dlgUser.getPasswordField().getText(), dlgUser.getAvatarField().getText())) {
-				clientUser = User.fromDataBase(clientName);				
+				clientUser = User.fromDataBase(dlgUser.getLoginField().getText());				
 				connectClient();
 				displayClient();
 			} else {
