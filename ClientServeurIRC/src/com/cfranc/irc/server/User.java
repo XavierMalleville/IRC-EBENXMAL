@@ -254,7 +254,7 @@ public class User {
 					statement.setQueryTimeout(30);
 					ResultSet rs = statement.executeQuery("SELECT * FROM TUserIRC WHERE Pseudo = '" + pseudo + "' ");
 					rs.next();
-					result = new User(rs.getString(0), rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
+					result = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					System.err.println(e.getMessage());
