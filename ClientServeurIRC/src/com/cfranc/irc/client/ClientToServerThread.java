@@ -21,18 +21,17 @@ public class ClientToServerThread extends Thread implements IfSenderModel{
 	private DataOutputStream streamOut = null;
 	private DataInputStream streamIn = null;
 	private BufferedReader console = null;
-	String login,pwd,name;
+	String login,pwd;
 	DefaultListModel<String> clientListModel;
 	StyledDocument documentModel;
 	
-	public ClientToServerThread(StyledDocument documentModel, DefaultListModel<String> clientListModel, Socket socket, String login, String pwd, String name) {
+	public ClientToServerThread(StyledDocument documentModel, DefaultListModel<String> clientListModel, Socket socket, String login, String pwd) {
 		super();
 		this.documentModel=documentModel;
 		this.clientListModel=clientListModel;
 		this.socket = socket;
 		this.login=login;
 		this.pwd=pwd;
-		this.name=name;
 	}
 	
 	public void open() throws IOException {
@@ -55,8 +54,7 @@ public class ClientToServerThread extends Thread implements IfSenderModel{
         receiveMessage(user, line, styleBI, styleGP);
 	}
 	
-	public void receiveMessage(String user, String line, Style styleBI,
-			Style styleGP) {
+	public void receiveMessage(String user, String line, Style styleBI, Style styleGP) {
         try {        	
 			documentModel.insertString(documentModel.getLength(), user+" : ", styleBI);
 			documentModel.insertString(documentModel.getLength(), line+"\n", styleGP);
@@ -155,7 +153,7 @@ public class ClientToServerThread extends Thread implements IfSenderModel{
 			}
 			loginPwdQ = streamIn.readUTF();
 			if(loginPwdQ.equals(IfClientServerProtocol.LOGIN_PWD)){
-				streamOut.writeUTF(IfClientServerProtocol.SEPARATOR+this.login+IfClientServerProtocol.SEPARATOR+this.pwd+IfClientServerProtocol.SEPARATOR+this.name);
+				streamOut.writeUTF(IfClientServerProtocol.SEPARATOR+this.login+IfClientServerProtocol.SEPARATOR+this.pwd);
 			}
 			while(streamIn.available()<=0){
 				Thread.sleep(100);

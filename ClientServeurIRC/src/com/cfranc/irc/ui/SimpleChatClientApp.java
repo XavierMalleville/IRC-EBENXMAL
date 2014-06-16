@@ -9,7 +9,6 @@ import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -21,9 +20,16 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 import com.cfranc.irc.client.ClientToServerThread;
+import com.cfranc.irc.ui.connection.ConnectionDialog;
 import com.cfranc.irc.ui.connection.ConnectionPanel;
 
 public class SimpleChatClientApp implements ActionListener {
+	
+	public static final String CONNECT = "connect";
+	public static final String CREATE_USER  = "connect";
+	
+	private ConnectionDialog dlgConn; 
+	
     static String[] ConnectOptionNames = { "Connect" };	
     static String   ConnectTitle = "Connection Information";
     Socket socketClientServer;
@@ -125,15 +131,20 @@ public class SimpleChatClientApp implements ActionListener {
 	}
 	
     void displayConnectionDialog() {
-    	ConnectionPanel connectionPanel=new ConnectionPanel();
-		if (JOptionPane.showOptionDialog(null, connectionPanel, ConnectTitle,JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,null, ConnectOptionNames, ConnectOptionNames[0]) == 0) {
-
-			serverPort=Integer.parseInt(connectionPanel.getServerPortField().getText());
-			serverName=connectionPanel.getServerField().getText();
-			clientName=connectionPanel.getUserNameField().getText();
-			clientPwd=connectionPanel.getPasswordField().getText();
-			clientRealName=connectionPanel.getUserRealNameField().getText();
-		}
+    	
+    	dlgConn = new ConnectionDialog(this);
+    	dlgConn.setModal(true);
+    	dlgConn.setVisible(true); 
+    	
+//    	ConnectionPanel connectionPanel=new ConnectionPanel();
+//		if (JOptionPane.showOptionDialog(null, connectionPanel, ConnectTitle,JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,null, ConnectOptionNames, ConnectOptionNames[0]) == 0) {
+//
+//			serverPort=Integer.parseInt(connectionPanel.getServerPortField().getText());
+//			serverName=connectionPanel.getServerField().getText();
+//			clientName=connectionPanel.getUserNameField().getText();
+//			clientPwd=connectionPanel.getPasswordField().getText();
+//			clientRealName=connectionPanel.getUserRealNameField().getText();
+//		}
 	}
     
     private void connectClient() {
@@ -141,7 +152,7 @@ public class SimpleChatClientApp implements ActionListener {
 		try {
 			socketClientServer = new Socket(this.serverName, this.serverPort);
 			// Start connection services
-			clientToServerThread=new ClientToServerThread(documentModel, clientListModel,socketClientServer,clientName, clientPwd, clientRealName);
+			clientToServerThread=new ClientToServerThread(documentModel, clientListModel,socketClientServer,clientName, clientPwd);
 			clientToServerThread.start();
 
 			System.out.println("Connected: " + socketClientServer);
@@ -194,8 +205,15 @@ public class SimpleChatClientApp implements ActionListener {
 				frame.dispose();
 			};
 			
+		} else if (e.getActionCommand().equals(CONNECT)) {
+			if (dlgConn != null) {
+				serverName = dlgConn.getServerField().getText();
+				serverPort = Integer.parseInt(dlgConn.getServerPortField().getText());
+				clientName = dlgConn.getUserNameField().getText();
+				clientPwd =  dlgConn.getPasswordField().getText();
+				dlgConn.setVisible(false); 
+			}
 		}
-		
 		
 	}
 
