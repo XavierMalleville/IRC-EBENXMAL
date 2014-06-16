@@ -112,7 +112,7 @@ public class User {
 			Connection connection = connectionBase ("jdbc:sqlite:" + filePath);
 			try {
 				// Action de vérification
-				result = controleExistanceUser(connection);
+				result = verifierUser(connection);
 			}
 			finally {
 				try {
@@ -128,13 +128,30 @@ public class User {
 		}	
 		return result;
 	}
-	private boolean controleExistanceUser(Connection connection) {
+	private boolean verifierUser(Connection connection) {
 		Statement statement;
 		boolean result = false;
 		try {
 			statement = connection.createStatement();
 			statement.setQueryTimeout(30);
 			ResultSet rs = statement.executeQuery("SELECT * FROM TUserIRC WHERE Pseudo = '" + this.login + "' AND Pwd = '" + this.pwd +"' " );
+			if ((rs!=null)) {
+				result = rs.next();	
+			}
+				
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;			
+	}
+	private boolean controleExistanceUser(Connection connection) {
+		Statement statement;
+		boolean result = false;
+		try {
+			statement = connection.createStatement();
+			statement.setQueryTimeout(30);
+			ResultSet rs = statement.executeQuery("SELECT * FROM TUserIRC WHERE Pseudo = '" + this.login + "'");// AND Pwd = '" + this.pwd +"' " );
 			if ((rs!=null)) {
 				result = rs.next();	
 			}
