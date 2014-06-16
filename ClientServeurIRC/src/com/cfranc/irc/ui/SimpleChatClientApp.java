@@ -12,7 +12,6 @@ import java.net.UnknownHostException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -21,14 +20,17 @@ import javax.swing.text.StyledDocument;
 
 import com.cfranc.irc.client.ClientToServerThread;
 import com.cfranc.irc.ui.connection.ConnectionDialog;
-import com.cfranc.irc.ui.connection.ConnectionPanel;
+import com.cfranc.irc.ui.user.CreateUserDialog;
 
 public class SimpleChatClientApp implements ActionListener {
 	
+	
 	public static final String CONNECT = "connect";
-	public static final String CREATE_USER  = "connect";
+	public static final String CREATE_USER  = "create_user";
+	public static final String SAVE_CONNECT_USER = "save_and_connect";
 	
 	private ConnectionDialog dlgConn; 
+	private CreateUserDialog dlgUser;
 	
     static String[] ConnectOptionNames = { "Connect" };	
     static String   ConnectTitle = "Connection Information";
@@ -167,13 +169,12 @@ public class SimpleChatClientApp implements ActionListener {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		final SimpleChatClientApp app = new SimpleChatClientApp();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					app.displayConnectionDialog();
-					app.connectClient();
-					app.displayClient();
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -212,8 +213,44 @@ public class SimpleChatClientApp implements ActionListener {
 				clientName = dlgConn.getUserNameField().getText();
 				clientPwd =  dlgConn.getPasswordField().getText();
 				dlgConn.setVisible(false); 
+				connectClient();
+				displayClient();
+
 			}
-		}
+		} else if (e.getActionCommand().equals(CREATE_USER)) {
+			if (dlgConn != null) {
+				serverName = dlgConn.getServerField().getText();
+				serverPort = Integer.parseInt(dlgConn.getServerPortField().getText());
+				clientName = dlgConn.getUserNameField().getText();
+				clientPwd =  dlgConn.getPasswordField().getText();
+				dlgConn.setVisible(false); 
+				dlgUser = new CreateUserDialog(this);
+				dlgUser.getLoginField().setText(clientName);
+				dlgUser.getPasswordField().setText(clientPwd);
+				dlgUser.setModal(true);
+				dlgUser.setVisible(true);
+			}
+		} else if (e.getActionCommand().equals(SAVE_CONNECT_USER)) {
+			
+			dlgUser.setVisible(false);
+			creerClient(dlgUser.getLastNameField().getText(), dlgUser.getFirstNameField().getText(), dlgUser.getLoginField().getText(), dlgUser.getPasswordField().getText(), dlgUser.getAvatarField().getText());
+			connectClient();
+			displayClient();
+			serverName = dlgConn.getServerField().getText();
+			serverPort = Integer.parseInt(dlgConn.getServerPortField().getText());
+			clientName = dlgConn.getUserNameField().getText();
+			clientPwd =  dlgConn.getPasswordField().getText();
+			dlgConn.setVisible(false); 
+			dlgUser = new CreateUserDialog(this);
+			dlgUser.getLoginField().setText(clientName);
+			dlgUser.getPasswordField().setText(clientPwd);
+			dlgUser.setModal(true);
+			dlgUser.setVisible(true);
+
+		} 
+	}
+
+	private void creerClient(String lastName, String firstName, String login,String pswd, String avatar) {
 		
 	}
 
