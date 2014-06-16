@@ -15,6 +15,7 @@ public class User {
 	private String avatar;
 	private String pwd;
 	
+	/* Emplacement de la base de donnée du serveur */
 	static String urlBase;
 	
 	public String getLogin() {
@@ -144,6 +145,7 @@ public class User {
 		return  this.addUserBase(urlBase);
 	}
 	public boolean addUserBase (String filePath) {
+		/* Ajouter à la base l'utilisateur actuel */
 		boolean result = false;
 		if (!filePath.equals("")) {			
 			Connection connection = connectionBase ("jdbc:sqlite:" + filePath);
@@ -175,10 +177,12 @@ public class User {
 		}	
 		return result;			
 	}
+	
 	public boolean delUserBase () {
 		return  this.addUserBase(urlBase);
 	}
 	public boolean delUserBase (String filePath) {
+		/* Retirer de la base l'utilisateur actuel */
 		boolean result = false;
 		if (!filePath.equals("")) {			
 			Connection connection = connectionBase ("jdbc:sqlite:" + filePath);
