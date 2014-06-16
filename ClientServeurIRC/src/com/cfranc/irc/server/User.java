@@ -134,6 +134,7 @@ public class User {
 			statement = connection.createStatement();
 			statement.setQueryTimeout(30);
 			result = statement.execute("SELECT * FROM TUserIRC WHERE Pseudo = '" + this.login + "' AND Pwd = '" + this.pwd +"' " );
+			result = true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
