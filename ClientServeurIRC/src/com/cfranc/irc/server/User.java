@@ -133,7 +133,7 @@ public class User {
 		try {
 			statement = connection.createStatement();
 			statement.setQueryTimeout(30);
-			result = statement.execute("SELECT * FROM TUserIRC WHERE Pseudo = " + this.login + " AND Pwd = " + this.pwd );
+			result = statement.execute("SELECT * FROM TUserIRC WHERE Pseudo = '" + this.login + "' AND Pwd = '" + this.pwd +"' " );
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -153,7 +153,7 @@ public class User {
 				if (! controleExistanceUser(connection)) {
 					Statement statement = connection.createStatement();
 					statement.setQueryTimeout(30);
-					statement.executeUpdate("INSERT INTO TUserIRC VALUES ('"+this.name+"', '"+this.prenom+"', '"+this.login+"', '"+this.avatar+"', '"+this.pwd+"') ");
+					statement.executeUpdate("INSERT INTO TUserIRC (name, prenom, pseudo, avatar, pwd) VALUES ('"+this.name+"', '"+this.prenom+"', '"+this.login+"', '"+this.avatar+"', '"+this.pwd+"') ");
 					result = true;
 				}	
 				else {
