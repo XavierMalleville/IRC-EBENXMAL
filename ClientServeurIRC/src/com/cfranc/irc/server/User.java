@@ -1,10 +1,7 @@
 package com.cfranc.irc.server;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -219,6 +216,10 @@ public class User {
 		if(JDBC.isValidURL(url)) {				
 			try {
 				connection = DriverManager.getConnection(url);
+				// Création de la table de référence si elle n'existe pas
+				Statement statement = connection.createStatement();
+				statement.setQueryTimeout(30);
+				statement.executeUpdate("CREATE TABLE IF NOT EXISTS TUserIRC (name string, prenom String, login String, avatar String, pwd String)");				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				System.err.println(e.getMessage());
