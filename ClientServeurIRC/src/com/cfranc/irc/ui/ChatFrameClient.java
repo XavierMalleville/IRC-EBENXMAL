@@ -7,6 +7,8 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -248,6 +250,9 @@ public class ChatFrameClient extends JFrame {
 		toolBar.add(sendAction);
 		toolBar.add(disconnectAction);
 
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Point location = new Point((screenSize.width - this.getWidth())/2 , (screenSize.height - this.getHeight())/2); 
+		this.setLocation(location);		
 	
 	}
 

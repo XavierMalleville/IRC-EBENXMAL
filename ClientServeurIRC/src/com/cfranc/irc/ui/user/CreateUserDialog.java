@@ -1,6 +1,9 @@
 package com.cfranc.irc.ui.user;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -10,7 +13,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.cfranc.irc.ui.SimpleChatClientApp;
-import com.sun.corba.se.spi.orbutil.fsm.Action;
 
 public class CreateUserDialog extends JDialog {
 
@@ -20,7 +22,7 @@ public class CreateUserDialog extends JDialog {
 	
 	public CreateUserDialog(ActionListener controler) {
 		// TODO Auto-generated constructor stub
-		setTitle("Nouveau utilisateur");
+		setTitle("Nouvel utilisateur");
 		userPanel = new UserPanel();
 		add(userPanel, BorderLayout.CENTER);
 		
@@ -32,6 +34,9 @@ public class CreateUserDialog extends JDialog {
 		
 		this.add(buttonPanel, BorderLayout.PAGE_END);
 		this.pack();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Point location = new Point((screenSize.width - this.getWidth())/2 , (screenSize.height - this.getHeight())/2); 
+		this.setLocation(location);		
 		this.setModal(true);
 		
 	}

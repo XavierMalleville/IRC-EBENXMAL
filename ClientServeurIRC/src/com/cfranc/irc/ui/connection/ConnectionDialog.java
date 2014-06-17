@@ -1,10 +1,9 @@
 package com.cfranc.irc.ui.connection;
 
 import java.awt.BorderLayout;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.GraphicsConfiguration;
-import java.awt.Window;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -42,6 +41,9 @@ public class ConnectionDialog extends JDialog {
 
 		this.add(buttonPanel, BorderLayout.PAGE_END);
 		this.pack();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Point location = new Point((screenSize.width - this.getWidth())/2 , (screenSize.height - this.getHeight())/2); 
+		this.setLocation(location);		
 		this.setModal(true);
 	}
 	

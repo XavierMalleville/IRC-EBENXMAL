@@ -55,6 +55,7 @@ public class SimpleChatClientApp implements ActionListener {
 	
     public static final String BOLD_ITALIC = "BoldItalic";
     public static final String GRAY_PLAIN = "Gray";
+    public static final String ICON = "icon";
         
 	public static DefaultStyledDocument defaultDocumentModel() {
 		DefaultStyledDocument res=new DefaultStyledDocument();
@@ -73,6 +74,10 @@ public class SimpleChatClientApp implements ActionListener {
         StyleConstants.setItalic(styleGP, false);
         StyleConstants.setForeground(styleGP, Color.lightGray);
 
+	    res.addStyle(ICON, styleDefault);
+        Style styleIcon = res.getStyle(GRAY_PLAIN);
+        StyleConstants.setAlignment(styleIcon, StyleConstants.ALIGN_CENTER);
+        
 		return res;
 	}
 
