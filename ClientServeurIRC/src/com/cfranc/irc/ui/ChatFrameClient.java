@@ -344,7 +344,6 @@ public class ChatFrameClient extends JFrame {
 			documentModel.insertString(documentModel.getLength(), user+" : ", styleBI); //$NON-NLS-1$
 			documentModel.insertString(documentModel.getLength(), line+"\n", styleGP); //$NON-NLS-1$
 		} catch (BadLocationException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}				        	
 	}

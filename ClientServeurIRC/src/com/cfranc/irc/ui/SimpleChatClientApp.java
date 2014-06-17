@@ -6,9 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Properties;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -38,6 +41,7 @@ public class SimpleChatClientApp implements ActionListener {
 		
 	private ConnectionDialog dlgConn; 
 	private CreateUserDialog dlgUser;
+	private static Properties properties;
 	
     static String[] ConnectOptionNames = { "Connect" };	
     static String   ConnectTitle = "Connection Information";
@@ -158,20 +162,24 @@ public class SimpleChatClientApp implements ActionListener {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		User.urlBase = args[0];
-		final SimpleChatClientApp app = new SimpleChatClientApp();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					app.displayConnectionDialog();
-
-				} catch (Exception e) {
-					e.printStackTrace();
+		properties = new Properties();
+		try {
+			properties.load(new FileReader(new File("server.properties")));
+			User.urlBase = properties.getProperty("database");
+			final SimpleChatClientApp app = new SimpleChatClientApp();
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						app.displayConnectionDialog();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-			}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-			
-		});
 
 	}
 

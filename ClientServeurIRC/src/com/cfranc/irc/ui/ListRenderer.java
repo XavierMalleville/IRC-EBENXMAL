@@ -21,6 +21,7 @@ public class ListRenderer implements ListCellRenderer<User> {
 		JLabel avatar = new JLabel(value.getLogin()); 
 		if (!value.getAvatar().isEmpty()) {
 			ImageIcon imageIcon = new ImageIcon(value.getAvatar())    ; // load the image to a imageIcon
+			//on redimensionne l'icon en 16 X 16	
 			Image newimg = imageIcon.getImage().getScaledInstance(16, 16,  java.awt.Image.SCALE_SMOOTH);   
 			avatar.setIcon(new ImageIcon(newimg));  
 		}
