@@ -8,8 +8,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -19,8 +17,6 @@ import java.util.Scanner;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,11 +37,11 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.BadLocationException;
@@ -71,7 +67,8 @@ public class ChatFrameClient extends JFrame {
 	private JTextField textField;
 	private JLabel lblSender;
 	private JToolBar toolBar;
-
+	private JTextPane textArea;
+	
 	private boolean isScrollLocked=true;
 	
 
@@ -86,6 +83,27 @@ public class ChatFrameClient extends JFrame {
 	public ChatFrameClient(IfSenderModel sender, ListModel<User> clientListModel, Document documentModel) {
 		this.sender=sender;
 		this.documentModel=documentModel;
+		documentModel.addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				Document doc = e.getDocument();
+				try {
+					getTextArea().setText(doc.getText(0, doc.getLength()));
+				} catch (BadLocationException e1) {
+					e1.printStackTrace();
+				}  
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+		
 		this.listModel= clientListModel;
 		setTitle(Messages.getString("SimpleChatFrameClient.4")); //$NON-NLS-1$
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -146,7 +164,6 @@ public class ChatFrameClient extends JFrame {
 			public void valueChanged(ListSelectionEvent e) {
 				int iFirstSelectedElement=((JList)e.getSource()).getSelectedIndex();
 				if(iFirstSelectedElement>=0 && iFirstSelectedElement<((JList)e.getSource()).getModel().getSize()){
-					System.out.println("listEmoticon");
 					emoticon= (Emoticon) ((JList)e.getSource()).getModel().getElementAt(iFirstSelectedElement);
 				}
 			}
@@ -208,8 +225,11 @@ public class ChatFrameClient extends JFrame {
 		list.setMinimumSize(new Dimension(100, 0));
 		splitPane.setLeftComponent(list);
 
-		JTextPane textArea = new JTextPane((StyledDocument)documentModel);
-		textArea.setEnabled(false);
+		//JTextPane textArea = new JTextPane((StyledDocument)documentModel);
+		textArea = new JTextPane();
+		textArea.setContentType("text/html");
+		textArea.setEnabled(true);
+		textArea.setEditable(false);
 		
 		JTabbedPane onglet = new JTabbedPane();
 		onglet.add("Salon",new JScrollPane(textArea));
@@ -353,6 +373,10 @@ public class ChatFrameClient extends JFrame {
 		while(!line.equals(".bye")){ //$NON-NLS-1$
 			line=sc.nextLine();			
 		}
+	}
+
+	public JTextPane getTextArea() {
+		return textArea;
 	}
 	
 }
