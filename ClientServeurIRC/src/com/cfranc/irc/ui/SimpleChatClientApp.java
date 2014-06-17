@@ -31,7 +31,11 @@ public class SimpleChatClientApp implements ActionListener {
 	public static final String DISCONNECT = "disconnect";
 	public static final String CREATE_USER  = "create_user";
 	public static final String SAVE_CONNECT_USER = "save_and_connect";
-	
+	public static final Emoticon[] EMOTICONS = {new Emoticon(":0", "emoticon/0.png"),new Emoticon(":1", "emoticon/1.png"),new Emoticon(":2", "emoticon/2.png"),
+									new Emoticon(":3", "emoticon/3.png"),new Emoticon(":4", "emoticon/4.png"),new Emoticon(":5", "emoticon/5.png"),
+									new Emoticon(":6", "emoticon/6.png"),new Emoticon(":7", "emoticon/7.png"),new Emoticon(":8", "emoticon/8.png"),
+									new Emoticon(":9", "emoticon/9.png")};
+		
 	private ConnectionDialog dlgConn; 
 	private CreateUserDialog dlgUser;
 	
@@ -45,7 +49,7 @@ public class SimpleChatClientApp implements ActionListener {
     String clientRealName;
     User clientUser;
     
-	private SimpleChatFrameClient frame;
+	private ChatFrameClient frame;
 	public StyledDocument documentModel=new DefaultStyledDocument();
 	DefaultListModel<User> clientListModel=new DefaultListModel<User>();
 	
@@ -81,7 +85,7 @@ public class SimpleChatClientApp implements ActionListener {
 	public void displayClient() {
 		
 		// Init GUI
-		this.frame=new SimpleChatFrameClient(clientToServerThread, clientListModel, documentModel);
+		this.frame=new ChatFrameClient(clientToServerThread, clientListModel, documentModel);
 		this.frame.setTitle(this.frame.getTitle()+" : "+ clientUser.getLogin() +" connected to "+serverName+":"+serverPort);
 		this.frame.setVisible(true);
 		this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
