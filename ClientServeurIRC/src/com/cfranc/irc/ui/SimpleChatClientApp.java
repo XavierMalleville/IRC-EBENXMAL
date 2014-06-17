@@ -175,7 +175,7 @@ public class SimpleChatClientApp implements ActionListener {
 			app.clientToServerThread.quitServer();
 			app.socketClientServer.close();
 			app.hideClient();
-			System.out.println("SimpleChatClientApp : fermée");
+			System.exit(1);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

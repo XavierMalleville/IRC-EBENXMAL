@@ -15,6 +15,7 @@ import javax.swing.text.StyledDocument;
 
 import com.cfranc.irc.IfClientServerProtocol;
 import com.cfranc.irc.server.User;
+import com.cfranc.irc.ui.Emoticon;
 import com.cfranc.irc.ui.SimpleChatClientApp;
 
 public class ClientToServerThread extends Thread implements IfSenderModel{
@@ -57,7 +58,11 @@ public class ClientToServerThread extends Thread implements IfSenderModel{
 	public void receiveMessage(String user, String line, Style styleBI, Style styleGP) {
         try {        	
 			documentModel.insertString(documentModel.getLength(), user+" : ", styleBI);
-			documentModel.insertString(documentModel.getLength(), line+"\n", styleGP);
+			for (Emoticon e : SimpleChatClientApp.EMOTICONS) {
+				line = line.replaceAll(e.getCode(), e.getHtml());
+			}
+			documentModel.insertString(documentModel.getLength(), line+"<BR/>", styleGP);
+			
 		} catch (BadLocationException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

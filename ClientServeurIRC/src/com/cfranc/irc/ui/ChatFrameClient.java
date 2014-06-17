@@ -225,7 +225,6 @@ public class ChatFrameClient extends JFrame {
 		list.setMinimumSize(new Dimension(100, 0));
 		splitPane.setLeftComponent(list);
 
-		//JTextPane textArea = new JTextPane((StyledDocument)documentModel);
 		textArea = new JTextPane();
 		textArea.setContentType("text/html");
 		textArea.setEnabled(true);

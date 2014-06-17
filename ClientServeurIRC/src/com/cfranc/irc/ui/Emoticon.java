@@ -13,7 +13,7 @@ public class Emoticon {
 	}
 
 	public String getHtml() {
-		return "<img src=\"" + resource + "\">";
+		return "<img width=\"20\" height=\"20\" src=\"" + Emoticon.class.getResource("emoticon/" + getCode().replace(":", "") + ".png").toString()+"\"/>";
 	}
 
 	public Emoticon(String code, String resource) {
