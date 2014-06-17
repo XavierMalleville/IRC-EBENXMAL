@@ -18,7 +18,7 @@ public class ListRenderer implements ListCellRenderer<User> {
 
 	@Override
 	public Component getListCellRendererComponent(JList<? extends User> list, User value, int index, boolean isSelected, boolean cellHasFocus) {
-		JLabel avatar = new JLabel(value.getName() + " " + value.getPrenom()); 
+		JLabel avatar = new JLabel(value.getLogin()); 
 		if (!value.getAvatar().isEmpty()) {
 			ImageIcon imageIcon = new ImageIcon(value.getAvatar())    ; // load the image to a imageIcon
 			Image newimg = imageIcon.getImage().getScaledInstance(16, 16,  java.awt.Image.SCALE_SMOOTH);   
